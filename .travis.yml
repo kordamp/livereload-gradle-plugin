@@ -1,7 +1,5 @@
 language: groovy
-script: ./gradlew check test cobertura
+script: ./gradlew clean build cobertura
 jdk: oraclejdk7
-env:
-  matrix:
-  - TERM=dumb
+env: TERM=dumb
 after_success: ./gradlew coveralls
