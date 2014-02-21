@@ -25,6 +25,7 @@ Use the following snippet inside a Gradle build file:
 buildscript {
     repositories {
         jcenter()
+        maven { url 'http://dl.bintray.com/content/aalmiray/kordamp' }  <1>
     }
 
     dependencies {
@@ -34,6 +35,7 @@ buildscript {
 
 apply plugin: 'livereload'
 ----
+<1> needed until the plugin is available from JCenter
 
 == Usage
 
@@ -42,6 +44,10 @@ The plugin adds a new task named `liveReload`. This task exposes 2 properties as
 [horizontal]
 port:: used by the LiveReload Sever sources are. Type: int. Default: 35729.
 docRoot:: the main directory from which files will be served. Type: String. Default `build/livereload`
+
+You'd usually run the `liveReload` task in a separate shell as the server is kept alive until the gradle
+session is killed. Support for forking the JVM process and killing the server via a second command may
+be added in a future release.
 
 == Configuration
 
