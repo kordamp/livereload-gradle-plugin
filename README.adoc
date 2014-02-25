@@ -6,12 +6,11 @@ LiveReload Gradle Plugin
 :livereload-jvm-url: https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin
 
-image::https://travis-ci.org/aalmiray/livereload-gradle-plugin.png?branch=master["Build Status", link="https://travis-ci.org/aalmiray/livereload-gradle-plugin"]
-image::https://coveralls.io/repos/aalmiray/livereload-gradle-plugin/badge.png["Coverage Status", link="https://coveralls.io/r/aalmiray/livereload-gradle-plugin"]
-image::https://d2weczhvl823v0.cloudfront.net/aalmiray/livereload-gradle-plugin/trend.png["Bitdeli Badge", link="https://bitdeli.com/free"]
-image::http://img.shields.io/:semver-{version}-yellow.svg["Semantic Versioning", link="http://semver.org"]
+image:https://travis-ci.org/aalmiray/livereload-gradle-plugin.png?branch=master["Build Status", link="https://travis-ci.org/aalmiray/livereload-gradle-plugin"]
+image:https://coveralls.io/repos/aalmiray/livereload-gradle-plugin/badge.png["Coverage Status", link="https://coveralls.io/r/aalmiray/livereload-gradle-plugin"]
+image:http://img.shields.io/:semver-{version}-yellow.svg["Semantic Versioning", link="http://semver.org"]
 
-image::https://api.bintray.com/packages/aalmiray/kordamp/livereload-gradle-plugin/images/download.png["Bintray", link="https://bintray.com/aalmiray/kordamp/livereload-gradle-plugin/{version}"]
+image::https://api.bintray.com/packages/aalmiray/kordamp/livereload-gradle-plugin/images/download.png["Bintray", link="https://bintray.com/aalmiray/kordamp/livereload-gradle-plugin"]
 
 The livereload-gradle-plugin enables {livereload-url}[LiveReload] on a particular directory via {livereload-jvm-url}[livereload-jvm].
 
@@ -54,3 +53,5 @@ be added in a future release.
 This plugin can be used in combination with any task that produces content that should be reload. In particular this
 plugin detects if the {asciidoctor-gradle-plugin}[asciidoctor-gradle-plugin] is installed, automatically configuring
 the `outputDir` of the `asciidoctor` task as the `docRoot`. This setting can be overridden by user input of course.
+
+image::https://d2weczhvl823v0.cloudfront.net/aalmiray/livereload-gradle-plugin/trend.png["Bitdeli Badge", link="https://bitdeli.com/free"]
