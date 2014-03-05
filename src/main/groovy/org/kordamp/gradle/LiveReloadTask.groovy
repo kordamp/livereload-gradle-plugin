@@ -26,6 +26,8 @@ import org.gradle.api.tasks.TaskAction
  */
 class LiveReloadTask extends DefaultTask {
     private static final String ASCIIDOCTOR = 'asciidoctor'
+    private static final String MARKDOWN = 'markdown'
+    private static final String MARKDOWN2HTML = 'markdownToHtml'
 
     @Optional @Input String docRoot
     @Input Integer port
@@ -41,6 +43,9 @@ class LiveReloadTask extends DefaultTask {
             if (project.plugins.hasPlugin(ASCIIDOCTOR)) {
                 Task asciidoctorTask = project.tasks.getByName(ASCIIDOCTOR)
                 docRoot = asciidoctorTask?.outputDir?.canonicalPath
+            } else if (project.plugins.hasPlugin(MARKDOWN)) {
+                Task markdownToHtmlTask = project.tasks.getByName(MARKDOWN2HTML)
+                docRoot = markdownToHtmlTask?.outputDir?.canonicalPath
             }
             // TODO: check for jbake plugin
         }
