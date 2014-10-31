@@ -1,17 +1,17 @@
 LiveReload Gradle Plugin
 =========================
 :author: Andres Almiray
-:version: 0.0.1
+:version: 0.2.0
 :livereload-url: http://livereload.com/
 :livereload-jvm-url: https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin
 
 image:https://travis-ci.org/aalmiray/livereload-gradle-plugin.png?branch=master["Build Status", link="https://travis-ci.org/aalmiray/livereload-gradle-plugin"]
 image:https://coveralls.io/repos/aalmiray/livereload-gradle-plugin/badge.png["Coverage Status", link="https://coveralls.io/r/aalmiray/livereload-gradle-plugin"]
-image:http://img.shields.io/:semver-{version}-yellow.svg["Semantic Versioning", link="http://semver.org"]
+image:http://img.shields.io/:semver-{version}-blue.svg["Semantic Versioning", link="http://semver.org"]
 
 image::https://api.bintray.com/packages/aalmiray/kordamp/livereload-gradle-plugin/images/download.png["Bintray", link="https://bintray.com/aalmiray/kordamp/livereload-gradle-plugin"]
-
+livereload-
 The livereload-gradle-plugin enables {livereload-url}[LiveReload] on a particular directory via {livereload-jvm-url}[livereload-jvm].
 
 == Installation
@@ -25,15 +25,14 @@ Use the following snippet inside a Gradle build file:
 buildscript {
     repositories {
         jcenter()
-        maven { url 'http://dl.bintray.com/content/aalmiray/kordamp' }
     }
 
     dependencies {
-        classpath 'org.kordamp:livereload-gradle-plugin:{version}'
+        classpath 'org.kordamp.gradle.:livereload-gradle-plugin:{version}'
     }
 }
 
-apply plugin: 'livereload'
+apply plugin: 'org.kordamp.gradle.livereload'
 ----
 
 == Usage
@@ -41,7 +40,7 @@ apply plugin: 'livereload'
 The plugin adds a new task named `liveReload`. This task exposes 2 properties as part of its configuration
 
 [horizontal]
-port:: used by the LiveReload Sever sources are. Type: int. Default: 35729.
+port:: used by the LiveReload Sever. Type: int. Default: 35729.
 docRoot:: the main directory from which files will be served. Type: String. Default `build/livereload`
 
 You'd usually run the `liveReload` task in a separate shell as the server is kept alive until the gradle
@@ -54,4 +53,3 @@ This plugin can be used in combination with any task that produces content that 
 plugin detects if the {asciidoctor-gradle-plugin}[asciidoctor-gradle-plugin] is installed, automatically configuring
 the `outputDir` of the `asciidoctor` task as the `docRoot`. This setting can be overridden by user input of course.
 
-image::https://d2weczhvl823v0.cloudfront.net/aalmiray/livereload-gradle-plugin/trend.png["Bitdeli Badge", link="https://bitdeli.com/free"]

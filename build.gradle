@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,20 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.2'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.2.4'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.7.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
     }
 }
 
-apply plugin: 'groovy'
 apply plugin: 'idea'
-apply plugin: 'codenarc'
-apply plugin: 'cobertura'
-apply plugin: 'coveralls'
+apply plugin: 'groovy'
+apply from: 'gradle/publishing.gradle'
+apply from: 'gradle/code-coverage.gradle'
+apply from: 'gradle/code-quality.gradle'
+apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'build-dashboard'
-apply plugin: 'license'
-apply from: 'gradle/publish.gradle'
 
 repositories {
     jcenter()
@@ -43,33 +42,16 @@ repositories {
 dependencies {
     compile gradleApi()
     compile 'net.alchim31:livereload-jvm:0.2.0'
-    testCompile('org.spockframework:spock-core:0.6-groovy-1.8') {
+    testCompile 'junit:junit:4.11'
+    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
-    testCompile 'cglib:cglib-nodep:2.2.2'
+    testCompile 'cglib:cglib-nodep:3.1'
 }
 
-license {
-    header = rootProject.file('config/HEADER')
-    strictCheck = true
-    ignoreFailures = false
-    mapping {
-        java ='SLASHSTAR_STYLE'
-        groovy ='SLASHSTAR_STYLE'
-    }
-    ext.year = '2013-2014'
-}
-
-cobertura {
-    coverageFormats = ['html', 'xml']
-    coverageSourceDirs = sourceSets.main.groovy.srcDirs
-}
-
-codenarc {
-    configFile = file('config/codenarc/codenarc.groovy')
-    // run codenarc on production sources only
-    sourceSets = [project.sourceSets.main]
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.7'
+    targetCompatibility = '1.7'
 }
 
 task sourceJar(type: Jar) {
@@ -78,6 +60,8 @@ task sourceJar(type: Jar) {
     classifier 'sources'
     from sourceSets.main.allSource
 }
+
+jar.finalizedBy sourceJar
 
 artifacts {
     sourceJar

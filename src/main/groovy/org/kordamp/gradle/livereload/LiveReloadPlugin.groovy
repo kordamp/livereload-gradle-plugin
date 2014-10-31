@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kordamp.gradle
+package org.kordamp.gradle.livereload
 
-import net_alchim31_livereload.LRServer
-
-import java.nio.file.FileSystems
-import java.nio.file.Path
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
 /**
  * @author Andres Almiray
  */
-class LiveReloadServer {
-    private final int port
-    private final String docRoot
-
-    LiveReloadServer(int port, String docRoot) {
-        this.port = port
-        this.docRoot = docRoot
-    }
-
-    void run() {
-        Path docroot = FileSystems.default.getPath(docRoot)
-        new LRServer(port, docroot).run()
+class LiveReloadPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.apply(plugin: 'base')
+        project.task('liveReload', type: LiveReloadTask, group: 'Tools')
     }
 }

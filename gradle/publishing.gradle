@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2013-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,48 +18,48 @@ import java.text.SimpleDateFormat
 
 Date buildTimeAndDate = new Date()
 ext {
-    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
 apply plugin: 'maven-publish'
-apply plugin: 'bintray'
+apply plugin: 'com.jfrog.bintray'
 
 jar {
     manifest {
         attributes(
             'Built-By': System.properties['user.name'],
-            'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
-            'Build-Date': project.buildTime,
-            'Build-Time': project.buildDate,
+            'Created-By': System.properties['java.version'] + ' (' + System.properties['java.vendor'] + ' ' + System.properties["java.vm.version"] + ')',
+            'Build-Date': project.buildDate,
+            'Build-Time': project.buildTime,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
-            'Specification-Vendor': 'http://github.com/aalmiray/livereload-gradle-plugin',
+            'Specification-Vendor': project.project_vendor,
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor': 'http://github.com/aalmiray/livereload-gradle-plugin'
+            'Implementation-Vendor': project.project_vendor
         )
     }
 }
 
 def pomConfig = {
     name project.name
-    description 'A Gradle plugin for enabling LiveReload'
-    url 'https://github.com/aalmiray/livereload-gradle-plugin'
+    description project.project_description
+    url project.project_url
     inceptionYear '2013'
     licenses {
-        license {
+        license([:]) {
             name 'The Apache Software License, Version 2.0'
             url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
             distribution 'repo'
         }
     }
     scm {
-        url 'https://github.com/aalmiray/livereload-gradle-plugin'
+        url project.project_scm
     }
     developers {
         [
-            aalmiray: 'Andres Almiray'
+            aalmiray : 'Andres Almiray'
         ].each { devId, devName ->
             developer {
                 id devId
@@ -85,21 +85,29 @@ publishing {
     }
 }
 
-task install(dependsOn: publishToMavenLocal)
-
-if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = ''
-if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = ''
+if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = 'invalid'
+if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = 'invalid'
 
 bintray {
     user = project.bintrayUsername
     key = project.bintrayApiKey
     publications = ['mavenCustom']
     pkg {
-        repo = 'kordamp'
-        userOrg = 'aalmiray'
-        name = 'livereload-gradle-plugin'
-        desc = 'A Gradle plugin for enabling LiveReload'
+        repo = project.project_bintray_repo
+        userOrg = project.project_bintray_org
+        name = project.name
+        desc = project.project_description
         licenses = ['Apache-2.0']
         labels = ['gradle', 'plugin', 'LiveReload']
+        websiteUrl = project.project_url
+        issueTrackerUrl = project.project_issues_url
+        vcsUrl = project.project_scm
+        publicDownloadNumbers = true
+        version {
+            vcsTag = project.version
+            attributes = [
+                'gradle-plugin': 'org.kordamp.gradle.livereload:org.kordamp.gradle:livereload-gradle-plugin'
+            ]
+        }
     }
 }
