@@ -5,14 +5,14 @@ LiveReload Gradle Plugin
 :livereload-url: http://livereload.com/
 :livereload-jvm-url: https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin
+:project-name: livereload-gradle-plugin
 
-image:https://travis-ci.org/aalmiray/livereload-gradle-plugin.png?branch=master["Build Status", link="https://travis-ci.org/aalmiray/livereload-gradle-plugin"]
-image:https://coveralls.io/repos/aalmiray/livereload-gradle-plugin/badge.png["Coverage Status", link="https://coveralls.io/r/aalmiray/livereload-gradle-plugin"]
-image:http://img.shields.io/:semver-{version}-blue.svg["Semantic Versioning", link="http://semver.org"]
+image:http://img.shields.io/travis/aalmiray/{project-name}/master.svg["Build Status", link="https://travis-ci.org/aalmiray/{project-name}"]
+image:http://img.shields.io/coveralls/aalmiray/{project-name}/master.svg["Coverage Status", link="https://coveralls.io/r/aalmiray/{project-name}"]
+image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
+image:https://api.bintray.com/packages/aalmiray/kordamp/{project-name}/images/download.svg[link="https://bintray.com/aalmiray/kordamp/{project-name}/_latestVersion"]
 
-image::https://api.bintray.com/packages/aalmiray/kordamp/livereload-gradle-plugin/images/download.png["Bintray", link="https://bintray.com/aalmiray/kordamp/livereload-gradle-plugin"]
-livereload-
-The livereload-gradle-plugin enables {livereload-url}[LiveReload] on a particular directory via {livereload-jvm-url}[livereload-jvm].
+The {project-name} enables {livereload-url}[LiveReload] on a particular directory via {livereload-jvm-url}[livereload-jvm].
 
 == Installation
 
@@ -28,7 +28,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.kordamp.gradle.:livereload-gradle-plugin:{version}'
+        classpath 'org.kordamp.gradle:{project-name}:{version}'
     }
 }
 
