@@ -1,7 +1,7 @@
 LiveReload Gradle Plugin
 =========================
 :author: Andres Almiray
-:version: 0.2.0
+:version: 0.2.1
 :livereload-url: http://livereload.com/
 :livereload-jvm-url: https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin

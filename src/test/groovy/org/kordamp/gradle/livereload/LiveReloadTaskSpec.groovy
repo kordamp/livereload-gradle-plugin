@@ -25,6 +25,7 @@ import spock.lang.Specification
  */
 class LiveReloadTaskSpec extends Specification {
     private static final String LIVERELOAD = 'liveReload'
+    private static final String BUILD_DOCUMENTS = 'build/documents'
 
     Project project
     LiveReloadServer mockLiveReloadServer
@@ -60,12 +61,12 @@ class LiveReloadTaskSpec extends Specification {
         when:
             Task task = project.tasks.create(name: LIVERELOAD, type: LiveReloadTask) {
                 liveReloadServer = mockLiveReloadServer
-                docRoot = 'build/documents'
+                docRoot = BUILD_DOCUMENTS
             }
 
             task.runLiveReload()
 
         then:
-            task.docRoot == 'build/documents'
+            task.docRoot == BUILD_DOCUMENTS
     }
 }
