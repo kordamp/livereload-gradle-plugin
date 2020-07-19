@@ -1,5 +1,7 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2013-2020 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kordamp.gradle.livereload
+package org.kordamp.gradle.plugin.livereload
 
+import groovy.transform.CompileStatic
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.BasePlugin
 
 /**
  * @author Andres Almiray
  */
+@CompileStatic
 class LiveReloadPlugin implements Plugin<Project> {
     void apply(Project project) {
-        project.apply(plugin: 'base')
-        project.task('liveReload', type: LiveReloadTask, group: 'Tools')
+        Banner.display(project)
+
+        project.plugins.apply(BasePlugin)
+
+        project.tasks.register('liveReload', LiveReloadTask,
+            new Action<LiveReloadTask>() {
+                @Override
+                void execute(LiveReloadTask t) {
+                    t.group = 'Tools'
+                    t.description = 'Runs LiveReload on this project'
+                }
+            })
     }
 }

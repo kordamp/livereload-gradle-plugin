@@ -1,5 +1,7 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2013-2020 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kordamp.gradle.livereload
+package org.kordamp.gradle.plugin.livereload
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.Task
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
@@ -25,12 +28,13 @@ import org.gradle.api.tasks.TaskAction
  * @author Andres Almiray
  */
 class LiveReloadTask extends DefaultTask {
-    private static final String ASCIIDOCTOR = 'asciidoctor'
-    private static final String MARKDOWN = 'markdown'
+    private static final String ASCIIDOCTOR = 'org.asciidoctor.jvm.convert'
+    private static final String MARKDOWN = 'org.kordamp.gradle.markdown'
     private static final String MARKDOWN2HTML = 'markdownToHtml'
 
     @Optional @Input String docRoot
     @Input Integer port
+    @Internal
     LiveReloadServer liveReloadServer
 
     LiveReloadTask() {
@@ -41,7 +45,7 @@ class LiveReloadTask extends DefaultTask {
     void runLiveReload() {
         if (docRoot == null) {
             if (project.plugins.hasPlugin(ASCIIDOCTOR)) {
-                Task asciidoctorTask = project.tasks.getByName(ASCIIDOCTOR)
+                Task asciidoctorTask = project.tasks.getByName('asciidoctor')
                 docRoot = asciidoctorTask?.outputDir?.canonicalPath
             } else if (project.plugins.hasPlugin(MARKDOWN)) {
                 Task markdownToHtmlTask = project.tasks.getByName(MARKDOWN2HTML)
@@ -51,6 +55,7 @@ class LiveReloadTask extends DefaultTask {
         }
 
         docRoot = docRoot ?: 'build/livereload'
+        project.file(docRoot).mkdirs()
 
         println("Enabling LiveReload at port $port for $docRoot")
 

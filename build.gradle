@@ -1,11 +1,13 @@
 /*
- * Copyright 2014 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2013-2020 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,56 +15,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
-    }
+plugins {
+    id 'java-library'
+    id 'groovy'
+    id 'org.kordamp.gradle.groovy-project'
+    id 'org.kordamp.gradle.bintray'
+    id 'org.kordamp.gradle.plugin'
 }
 
-apply plugin: 'idea'
-apply plugin: 'groovy'
-apply from: 'gradle/publishing.gradle'
-apply from: 'gradle/code-coverage.gradle'
-apply from: 'gradle/code-quality.gradle'
-apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'build-dashboard'
+config {
+    info {
+        name          = rootProject.name
+        description   = 'LiveReload Gradle Plugin'
+        inceptionYear = '2013'
+        tags          = ['jandex']
 
-repositories {
-    jcenter()
+        specification { enabled = false }
+    }
+
+    docs {
+        groovydoc {
+            replaceJavadoc = true
+        }
+    }
+
+    plugins {
+        plugin {
+            name                = 'jandex'
+            id                  = 'org.kordamp.gradle.livereload'
+            implementationClass = 'org.kordamp.gradle.plugin.livereload.LiveReloadPlugin'
+        }
+    }
+
+    bintray {
+        skipMavenSync = true
+    }
 }
 
 dependencies {
-    compile gradleApi()
-    compile 'net.alchim31:livereload-jvm:0.2.0'
-    testCompile 'junit:junit:4.11'
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
+    compileOnly gradleApi()
+    api 'net.alchim31:livereload-jvm:0.2.0'
+    testImplementation('org.spockframework:spock-core:1.3-groovy-2.5') {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'junit', module: 'junit'
     }
-    testCompile 'cglib:cglib-nodep:3.1'
+    testImplementation 'cglib:cglib-nodep:3.3.0'
+    testImplementation 'org.objenesis:objenesis:3.1'
 }
 
-tasks.withType(JavaCompile) {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
-}
-
-task sourceJar(type: Jar) {
-    group 'Build'
-    description 'An archive of the source code'
-    classifier 'sources'
-    from sourceSets.main.allSource
-}
-
-jar.finalizedBy sourceJar
-
-artifacts {
-    sourceJar
+processResources {
+    inputs.property('version', project.version)
+    filesMatching(['**/*.properties']) {
+        expand(
+            'version': project.version,
+            'id'     : 'livereload',
+            'name'   : 'LiveReload Gradle plugin'
+        )
+    }
 }

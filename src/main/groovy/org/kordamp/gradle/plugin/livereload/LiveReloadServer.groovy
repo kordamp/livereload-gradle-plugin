@@ -1,5 +1,7 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2013-2020 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kordamp.gradle.livereload
+package org.kordamp.gradle.plugin.livereload
 
+import groovy.transform.CompileStatic
 import net_alchim31_livereload.LRServer
 
 import java.nio.file.FileSystems
@@ -23,6 +26,7 @@ import java.nio.file.Path
 /**
  * @author Andres Almiray
  */
+@CompileStatic
 class LiveReloadServer {
     private final int port
     private final String docRoot

@@ -1,39 +1,51 @@
-LiveReload Gradle Plugin
-=========================
-:author: Andres Almiray
-:version: 0.2.1
-:livereload-url: http://livereload.com/
-:livereload-jvm-url: https://github.com/davidB/livereload-jvm
+= livereload-gradle-plugin
+:linkattrs:
+:project-owner:   kordamp
+:project-repo:    maven
+:project-name:    livereload-gradle-plugin
+:project-group:   org.kordamp.gradle
+:project-version: 0.3.0
+:livereload-url:            http://livereload.com/
+:livereload-jvm-url:        https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin
-:project-name: livereload-gradle-plugin
 
-image:http://img.shields.io/travis/aalmiray/{project-name}/master.svg["Build Status", link="https://travis-ci.org/aalmiray/{project-name}"]
-image:http://img.shields.io/coveralls/aalmiray/{project-name}/master.svg["Coverage Status", link="https://coveralls.io/r/aalmiray/{project-name}"]
-image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
-image:https://api.bintray.com/packages/aalmiray/kordamp/{project-name}/images/download.svg[link="https://bintray.com/aalmiray/kordamp/{project-name}/_latestVersion"]
+image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
+image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
+image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
+image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
+image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/user?u=6609318"]
+
+---
 
 The {project-name} enables {livereload-url}[LiveReload] on a particular directory via {livereload-jvm-url}[livereload-jvm].
 
 == Installation
 
-Use the following snippet inside a Gradle build file:
-
+Option #1
 [source,groovy]
-.build.gradle
 [subs="attributes"]
 ----
 buildscript {
     repositories {
         jcenter()
+        gradlePluginPortal()
     }
-
     dependencies {
-        classpath 'org.kordamp.gradle:{project-name}:{version}'
+        classpath '{project-group}:{project-name}:{project-version}'
     }
 }
-
-apply plugin: 'org.kordamp.gradle.livereload'
+apply plugin: '{project-group}.livereload'
 ----
+
+Option #2
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id '{project-group}.livereload' version '{project-version}'
+}
+----
+
 
 == Usage
 
