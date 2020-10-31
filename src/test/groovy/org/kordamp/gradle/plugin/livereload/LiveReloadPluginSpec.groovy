@@ -18,7 +18,6 @@
 package org.kordamp.gradle.plugin.livereload
 
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -39,17 +38,17 @@ class LiveReloadPluginSpec extends Specification {
     @SuppressWarnings('MethodName')
     def "Applies plugin and checks default setup"() {
         expect:
-            project.tasks.findByName(LIVERELOAD) == null
+        project.tasks.findByName(LIVERELOAD) == null
 
         when:
-            project.apply plugin: LiveReloadPlugin
+        project.apply plugin: LiveReloadPlugin
 
         then:
-            Task asciidoctorTask = project.tasks.findByName(LIVERELOAD)
-            asciidoctorTask != null
-            asciidoctorTask.group == 'Tools'
-            asciidoctorTask.port == 35729
+        LiveReloadTask task = (LiveReloadTask) project.tasks.findByName(LIVERELOAD)
+        task != null
+        task.group == 'Tools'
+        task.resolvedPort.get() == 35729
 
-            project.tasks.findByName('clean') != null
+        project.tasks.findByName('clean') != null
     }
 }

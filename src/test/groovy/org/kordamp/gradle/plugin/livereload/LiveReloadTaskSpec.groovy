@@ -17,8 +17,8 @@
  */
 package org.kordamp.gradle.plugin.livereload
 
+import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -42,33 +42,41 @@ class LiveReloadTaskSpec extends Specification {
     @SuppressWarnings('MethodName')
     def "Adds liveReload task with default docRoot"() {
         expect:
-            project.tasks.findByName(LIVERELOAD) == null
+        project.tasks.findByName(LIVERELOAD) == null
 
         when:
-            Task task = project.tasks.create(name: LIVERELOAD, type: LiveReloadTask) {
-                liveReloadServer = mockLiveReloadServer
-            }
+        LiveReloadTask task = project.tasks.register(LIVERELOAD, LiveReloadTask,
+            new Action<LiveReloadTask>() {
+                @Override
+                void execute(LiveReloadTask t) {
+                    t.liveReloadServer = mockLiveReloadServer
+                }
+            }).get()
 
-            task.runLiveReload()
+        task.runLiveReload()
 
         then:
-            task.docRoot == 'build/livereload'
+        task.resolvedDocRoot.get() == 'build/livereload'
     }
 
     @SuppressWarnings('MethodName')
     def "Adds liveReload task with user defined docRoot"() {
         expect:
-            project.tasks.findByName(LIVERELOAD) == null
+        project.tasks.findByName(LIVERELOAD) == null
 
         when:
-            Task task = project.tasks.create(name: LIVERELOAD, type: LiveReloadTask) {
-                liveReloadServer = mockLiveReloadServer
-                docRoot = BUILD_DOCUMENTS
-            }
+        LiveReloadTask task = project.tasks.register(LIVERELOAD, LiveReloadTask,
+            new Action<LiveReloadTask>() {
+                @Override
+                void execute(LiveReloadTask t) {
+                    t.liveReloadServer = mockLiveReloadServer
+                    t.docRoot = BUILD_DOCUMENTS
+                }
+            }).get()
 
-            task.runLiveReload()
+        task.runLiveReload()
 
         then:
-            task.docRoot == BUILD_DOCUMENTS
+        task.resolvedDocRoot.get() == BUILD_DOCUMENTS
     }
 }

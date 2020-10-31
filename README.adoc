@@ -4,12 +4,11 @@
 :project-repo:    maven
 :project-name:    livereload-gradle-plugin
 :project-group:   org.kordamp.gradle
-:project-version: 0.3.0
+:project-version: 0.4.0
 :livereload-url:            http://livereload.com/
 :livereload-jvm-url:        https://github.com/davidB/livereload-jvm
 :asciidoctor-gradle-plugin: https://github.com/asciidoctor/asciidoctor-gradle-plugin
 
-image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
 image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
 image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
 image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
@@ -46,14 +45,28 @@ plugins {
 }
 ----
 
-
 == Usage
 
-The plugin adds a new task named `liveReload`. This task exposes 2 properties as part of its configuration
+The plugin adds a new task named `liveReload`. This task exposes the following properties as part of its configuration
 
-[horizontal]
-port:: used by the LiveReload Sever. Type: int. Default: 35729.
-docRoot:: the main directory from which files will be served. Type: String. Default `build/livereload`
+[options="header"]
+|===
+| Name    | Option              | Property            | Type    | Default Value
+| verbose | livereload-verbose  | livereload.verbose  | boolean | false
+| port    | livereload-port     | livereload.port     | int     | 35729
+| docRoot | livereload-doc-root | livereload.doc.root | String  | false
+|===
+
+Task properties may be defined on the command line using their option name, or their property name, such as
+
+[source]
+----
+$ gradle liveReload --livereload-verbose
+$ gradle liveReload -Plivereload.verbose=true
+$ gradle liveReload -Dlivereload.verbose=true
+$ set LIVERELOAD_VERBOSE=true
+$ gradle liveReload
+----
 
 You'd usually run the `liveReload` task in a separate shell as the server is kept alive until the gradle
 session is killed. Support for forking the JVM process and killing the server via a second command may

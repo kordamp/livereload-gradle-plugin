@@ -52,8 +52,15 @@ config {
     }
 }
 
+repositories {
+    gradlePluginPortal()
+    mavenLocal()
+}
+
 dependencies {
     compileOnly gradleApi()
+
+    api "org.kordamp.gradle:base-gradle-plugin:$kordampPluginVersion"
     api 'net.alchim31:livereload-jvm:0.2.0'
     testImplementation('org.spockframework:spock-core:1.3-groovy-2.5') {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
